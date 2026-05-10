@@ -1,0 +1,42 @@
+:root {
+  --base: clamp(14px, calc(0.9vw + 0.9vh), 26px);
+  --color-primary: #D1E000;
+  --color-primary-dark: #A8B400;
+  --color-brown: #3E2723;
+  --color-brown-light: #6D4C41;
+  --color-easy: #FF7A00;
+  --color-bg: #ffffff;
+  --color-fg: #1a1a1a;
+}
+
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  font-family: 'Pretendard', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+}
+
+html { font-size: var(--base); }
+
+html, body, #root {
+  width: 100vw; height: 100vh; overflow: hidden;
+  user-select: none; -webkit-user-select: none;
+  touch-action: manipulation; overscroll-behavior: none;
+}
+
+body { background: var(--color-bg); color: var(--color-fg); }
+
+button {
+  cursor: pointer; border: none; background: none;
+  font-family: inherit; font-size: inherit;
+}
+
+@media (orientation: portrait) {
+  :root { --base: clamp(16px, calc(1.4vw + 1vh), 32px); }
+}
+@media (orientation: landscape) {
+  :root { --base: clamp(14px, calc(0.7vw + 0.8vh), 22px); }
+}
+@media (max-width: 600px) {
+  :root { --base: 14px; }
+}
