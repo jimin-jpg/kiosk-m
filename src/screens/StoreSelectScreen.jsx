@@ -3,12 +3,11 @@ import { useKiosk } from '../context/KioskContext';
 import { COLORS } from '../components/tokens';
 import { FLAGS } from '../components/Flags';
 
-const 배율맵 = { normal: 1, large: 1.3, xlarge: 1.6 };
-
 export function StoreSelectScreen() {
   const { 처음으로, set화면, set매장구분, 언어, set언어, 안내, 접근성, 접근성업데이트 } = useKiosk();
   const [a11yOpen, setA11yOpen] = useState(false);
 
+  const 배율맵 = { normal: 1.3, large: 1.8, xlarge: 2.3 };
   const 배율 = 배율맵[접근성?.글씨크기 || 'normal'];
   const 고대비 = 접근성?.고대비 || false;
   const 낮은화면 = 접근성?.휠체어 || false;
@@ -19,7 +18,7 @@ export function StoreSelectScreen() {
   const cardBg = 고대비 ? '#000000' : '#FFFFFF';
 
   const t = {
-    title: { ko: '드시고 가시나요?', en: 'For here or to go?', ja: 'お召し上がり方法', zh: '请选择用餐方式' },
+    title: { ko: '드시고 가시나요?', en: 'For here or to go?', ja: 'お召し上がり方法', zh: '请选择용餐方式' },
     takeout: { ko: '포장', en: 'Take Out', ja: 'テイクアウト', zh: '打包' },
     dinein: { ko: '매장', en: 'Dine In', ja: '店内', zh: '堂食' },
   };
@@ -38,63 +37,56 @@ export function StoreSelectScreen() {
       color: fg, overflow: 'hidden', boxSizing: 'border-box',
     }}>
 
-      {/* 낮은화면: 상단 50% 검정 */}
       {낮은화면 && <div style={{ flex: '0 0 50%', background: '#000000', width: '100%' }} />}
 
       <div style={{
         flex: 낮은화면 ? '0 0 50%' : '1',
         display: 'flex', flexDirection: 'column',
-        background: bg, width: '100%',
-        overflow: 'hidden',
+        background: bg, width: '100%', overflow: 'hidden',
       }}>
 
-        {/* 상단바 */}
-        <div style={{ background: '#FFFFFF', padding: '15px 5%', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-          <button onClick={처음으로} style={{ fontSize: '36px', background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, color: '#000' }}>🏠</button>
+        <div style={{ background: 고대비 ? '#000000' : '#FFFFFF', padding: '15px 5%', flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+          <button onClick={처음으로} style={{ fontSize: `${36 * 배율}px`, background: 'transparent', border: 'none', cursor: 'pointer', padding: 0, color: 고대비 ? '#FFEB3B' : '#000' }}>🏠</button>
         </div>
 
-        {/* 타이틀 + 버튼 */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '30px', padding: '0 5%' }}>
-          <h1 style={{ fontSize: 낮은화면 ? '1.4em' : '2em', fontWeight: 'bold', textAlign: 'center', color: fg }}>
+          <h1 style={{ fontSize: `${(낮은화면 ? 24 : 32) * 배율}px`, fontWeight: 'bold', textAlign: 'center', color: fg }}>
             {t.title[언어]}
           </h1>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '30px', width: '100%' }}>
             <button onClick={() => 선택('포장')} style={{
-              flex: 1,
-              aspectRatio: '1/1',
+              flex: 1, aspectRatio: '1/1',
               maxWidth: 낮은화면 ? '180px' : '280px',
               maxHeight: 낮은화면 ? '180px' : '280px',
               background: cardBg, borderRadius: '16px',
-              border: 고대비 ? `4px solid ${primaryColor}` : `0.25em solid ${COLORS.primary}`,
+              border: 고대비 ? `4px solid ${primaryColor}` : `3px solid ${COLORS.primary}`,
               boxShadow: 고대비 ? 'none' : '0 4px 10px rgba(0,0,0,0.1)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', cursor: 'pointer'
             }}>
-              <div style={{ fontSize: 낮은화면 ? '40px' : '60px' }}>🛍️</div>
-              <div style={{ fontSize: `${(낮은화면 ? 1.4 : 2) * 배율}em`, fontWeight: 'bold', color: fg }}>{t.takeout[언어]}</div>
+              <div style={{ fontSize: `${(낮은화면 ? 40 : 60) * 배율}px` }}>🛍️</div>
+              <div style={{ fontSize: `${(낮은화면 ? 20 : 28) * 배율}px`, fontWeight: 'bold', color: fg }}>{t.takeout[언어]}</div>
             </button>
 
             <button onClick={() => 선택('매장')} style={{
-              flex: 1,
-              aspectRatio: '1/1',
+              flex: 1, aspectRatio: '1/1',
               maxWidth: 낮은화면 ? '180px' : '280px',
               maxHeight: 낮은화면 ? '180px' : '280px',
               background: cardBg, borderRadius: '16px',
-              border: 고대비 ? `4px solid ${primaryColor}` : `0.25em solid ${COLORS.primary}`,
+              border: 고대비 ? `4px solid ${primaryColor}` : `3px solid ${COLORS.primary}`,
               boxShadow: 고대비 ? 'none' : '0 4px 10px rgba(0,0,0,0.1)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', cursor: 'pointer'
             }}>
-              <div style={{ fontSize: 낮은화면 ? '40px' : '60px' }}>🍽️</div>
-              <div style={{ fontSize: `${(낮은화면 ? 1.4 : 2) * 배율}em`, fontWeight: 'bold', color: fg }}>{t.dinein[언어]}</div>
+              <div style={{ fontSize: `${(낮은화면 ? 40 : 60) * 배율}px` }}>🍽️</div>
+              <div style={{ fontSize: `${(낮은화면 ? 20 : 28) * 배율}px`, fontWeight: 'bold', color: fg }}>{t.dinein[언어]}</div>
             </button>
           </div>
         </div>
 
-        {/* 하단바 */}
         <div style={{
           flex: '0 0 auto',
           background: 고대비 ? '#000000' : '#3D2418',
-          borderTop: 고대비 ? `0.15em solid ${primaryColor}` : 'none',
+          borderTop: 고대비 ? `2px solid ${primaryColor}` : 'none',
           padding: '0.45em 0.8em',
           display: 'flex', alignItems: 'center', gap: '0.6em',
         }}>

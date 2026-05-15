@@ -2,7 +2,7 @@ import { COLORS } from './tokens';
 
 const STEPS = ['메뉴선택', '주문확인', '결제', '완료'];
 
-export function ProgressBar({ currentStep = 1, 고대비 = false }) {
+export function ProgressBar({ currentStep = 1, 고대비 = false, 배율 = 1 }) {
   const primaryColor = 고대비 ? '#FFEB3B' : COLORS.primary;
   const brownColor = 고대비 ? '#FFEB3B' : '#3D2418';
 
@@ -20,29 +20,20 @@ export function ProgressBar({ currentStep = 1, 고대비 = false }) {
           <div key={step} style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', flex: 1 }}>
               <div style={{
-                width: '50px', height: '50px', borderRadius: '50%',
-                background: isActive
-                  ? primaryColor
-                  : isPast
-                    ? (고대비 ? '#FFEB3B' : brownColor)
-                    : (고대비 ? '#000000' : '#FFFFFF'),
+                width: `${50 * 배율}px`, height: `${50 * 배율}px`, borderRadius: '50%',
+                background: isActive ? primaryColor : isPast ? (고대비 ? '#FFEB3B' : brownColor) : (고대비 ? '#000000' : '#FFFFFF'),
                 border: `3px solid ${고대비 ? '#FFEB3B' : (isActive ? primaryColor : brownColor)}`,
-                color: isActive
-                  ? '#000000'
-                  : isPast
-                    ? (고대비 ? '#000000' : '#FFFFFF')  // 👈 고대비: 검정글씨
-                    : (고대비 ? '#FFEB3B' : brownColor), // 👈 고대비: 노란글씨
+                color: isActive ? '#000000' : isPast ? (고대비 ? '#000000' : '#FFFFFF') : (고대비 ? '#FFEB3B' : brownColor),
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '22px', fontWeight: 'bold',
+                fontSize: `${22 * 배율}px`, fontWeight: 'bold',
               }}>
                 {stepNum}
               </div>
               <div style={{
-                fontSize: '14px',
+                fontSize: `${14 * 배율}px`,
                 fontWeight: isActive ? 'bold' : 'normal',
-                color: 고대비
-                  ? '#FFEB3B'           // 👈 고대비: 모든 라벨 노란색
-                  : (isActive ? brownColor : '#777'),
+                color: 고대비 ? '#FFEB3B' : (isActive ? brownColor : '#777'),
+                whiteSpace: 'nowrap',
               }}>
                 {step}
               </div>
@@ -51,9 +42,7 @@ export function ProgressBar({ currentStep = 1, 고대비 = false }) {
             {idx < STEPS.length - 1 && (
               <div style={{
                 flex: 1, height: '3px',
-                background: isPast
-                  ? (고대비 ? '#FFEB3B' : brownColor)
-                  : (고대비 ? '#444444' : '#DDD'), // 👈 고대비: 미래 연결선 어둡게
+                background: isPast ? (고대비 ? '#FFEB3B' : brownColor) : (고대비 ? '#444444' : '#DDD'),
                 marginBottom: '24px', marginLeft: '-10px', marginRight: '-10px',
               }} />
             )}
